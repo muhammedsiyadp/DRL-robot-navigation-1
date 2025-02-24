@@ -4,3 +4,5 @@ build_isolated
 devel_isolated
 logs
 .catkin_workspace
+build 
+devel
