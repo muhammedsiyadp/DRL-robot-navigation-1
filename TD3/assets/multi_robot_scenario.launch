@@ -1,5 +1,5 @@
 <launch>
-<arg name="gui" value="false"/>
+<arg name="gui" value="true"/>
 
    <!-- Gazebo  -->
   <include file="$(find multi_robot_scenario)/launch/empty_world.launch" />
