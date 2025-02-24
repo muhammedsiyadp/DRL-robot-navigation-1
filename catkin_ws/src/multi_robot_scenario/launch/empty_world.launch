@@ -12,9 +12,10 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="physics" default="ode"/>
-  <arg name="verbose" default="false"/>
-  <arg name="world_name" default="/home/saddy/DRL-robot-navigation/catkin_ws/src/multi_robot_scenario/launch/TD3.world"/>
-  <arg name="respawn_gazebo" default="true"/>
+  <arg name="verbose" default="true"/>
+  <arg name="world_name" default="/home/saddy/DRL-robot-navigation/catkin_world_ws/src/aws-robomaker-small-house-world/worlds/small_house.world"/>
+  <!-- $(find aws_robomaker_small_house_world)/worlds/small_house.world -->
+  <arg name="respawn_gazebo" default="false"/>
   <arg name="use_clock_frequency" default="false"/>
   <arg name="pub_clock_frequency" default="1000"/>
 
