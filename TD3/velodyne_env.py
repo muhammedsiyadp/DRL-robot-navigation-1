@@ -267,7 +267,7 @@ class GazeboEnv:
         # set a random goal in empty space in environment
         self.change_goal()
         # randomly scatter boxes in the environment
-        self.random_box()
+        #self.random_box() disabled the random box funtion
         self.publish_markers([0.0, 0.0])
 
         rospy.wait_for_service("/gazebo/unpause_physics")

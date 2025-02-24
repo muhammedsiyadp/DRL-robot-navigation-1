@@ -251,6 +251,8 @@ environment_dim = 20
 robot_dim = 4
 env = GazeboEnv("multi_robot_scenario.launch", environment_dim)
 time.sleep(5)
+input("waiting to launch gazebo ...(press enter if launched)")
+print("resuming loading model")
 torch.manual_seed(seed)
 np.random.seed(seed)
 state_dim = environment_dim + robot_dim
