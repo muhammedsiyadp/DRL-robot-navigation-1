@@ -39,10 +39,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <!-- xacro args -->
     <xacro:arg name="robot_namespace" default="/" />
     <xacro:arg name="lidar_enabled" default="false"/>
-    <xacro:arg name="test_lidar_enabled" default="true"/>
+    <xacro:arg name="test_lidar_enabled" default="false"/>
     <xacro:arg name="sick_lms151_enabled" default="false"/>
     <xacro:arg name="velodyne_enabled" default="false"/>
-    <xacro:arg name="imu_enabled" default="true"/>
+    <xacro:arg name="imu_enabled" default="false"/>
     <!--<xacro:arg name="camera_enabled" default="false"/>
     <xacro:arg name="intel_d435i_enabled" default="false"/>-->
     
@@ -116,14 +116,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
         <!-- Velodyne -->
-        <xacro:if value="$(arg velodyne_enabled)">
+        <!-- <xacro:if value="$(arg velodyne_enabled)">
             <xacro:include filename="$(find copernicus_description)/urdf/accessories/velodyne_mount.urdf.xacro"/>
             <xacro:velodyne_mount></xacro:velodyne_mount>
             <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
             <VLP-16 parent="velodyne_mount" name="velodyne" topic="velodyne_points" hz="10" samples="440" gpu="false" min_range="0.2">
                 <origin xyz="${velodyne_joint_x} ${velodyne_joint_y} ${velodyne_joint_z}" rpy="0 ${-velodyne_joint_pitch} 0" />
             </VLP-16>
-        </xacro:if>
+        </xacro:if> -->
+        <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+        <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" hz="10" samples="360" gpu="false" min_angle="-1.57" max_angle="1.57" min_range="0.1">
+            <origin xyz="0.125 0 0.74" rpy="0 0 0" />
+        </xacro:VLP-16>
 
         <!-- CAMERA -->
         <!--<xacro:if value="$(arg camera_enabled)">
