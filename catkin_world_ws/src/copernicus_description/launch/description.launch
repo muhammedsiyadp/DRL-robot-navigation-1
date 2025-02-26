@@ -21,5 +21,7 @@
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
         <param name="publish_frequency" type="double" value="30.0"/>
     </node>
+    <!-- launch ekf for copernicus -->
+    <include file="$(find copernicus_localization)/launch/localization.launch"/>
     
 </launch>
