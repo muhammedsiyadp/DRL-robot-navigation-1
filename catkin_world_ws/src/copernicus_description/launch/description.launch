@@ -1,19 +1,25 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="um7_imu" default="false"/>
-    <arg name="wit_wt901c_imu" default="false"/>
-    <arg name="sick_lms151" default="false"/>
-    <arg name="hokuyo_ust-10lx" default="false"/>
-    <arg name="rplidar" default="false"/>
+    <arg name="robot_name" default="p3dx" />
+    <arg name="robot_position" default="-x -1.0 -y 5.0 -z 0.01" />
 
     <arg name="model" default="$(find copernicus_description)/urdf/copernicus.xacro"/>
-    <arg name="viz_config" default="$(find copernicus_description)/rviz_params/copernicus.rviz"/>
 
     <!-- LOAD ROBOT DESCRIPTION PARAM -->
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) um7_imu:=$(arg um7_imu) imu_enabled:=$(arg wit_wt901c_imu) sick_lms151:=$(arg sick_lms151)  hokuyo_ust-10lx:=$(arg hokuyo_ust-10lx) rplidar:=$(arg rplidar)"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
     
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description $(arg robot_position) "/>
     
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg viz_config)" respawn="true" />
+    <include file="$(find copernicus_control)/launch/control.launch">
+      <arg name="enable_odom_tf" value="true" />
+    </include>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="30.0"/>
+      <!--<param name="tf_prefix" type="string" value="$(arg robot_name)"/>-->
+    </node>
+  
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0"/>
+    </node>
+    
 </launch>
