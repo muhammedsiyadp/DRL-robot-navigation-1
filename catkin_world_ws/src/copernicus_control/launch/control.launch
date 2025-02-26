@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="enable_odom_tf" default="true" />
+    <arg name="enable_odom_tf" default="false" />
 
     <!-- Load Control Params -->
     <rosparam command="load" file="$(find copernicus_control)/config/control.yaml" />
