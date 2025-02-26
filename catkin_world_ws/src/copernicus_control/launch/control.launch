@@ -16,7 +16,7 @@
 
     <!-- Odometry and Cmd Vel Relays -->
     <!-- <node name="relay_odom" pkg="topic_tools" type="relay" output="screen" args="copernicus_base_controller/odom r1/odom" /> -->
-    <!-- <node name="relay_cmd_vel" pkg="topic_tools" type="relay" output="screen" args="r1/cmd_vel copernicus_base_controller/cmd_vel" /> -->
+    <node name="relay_cmd_vel" pkg="topic_tools" type="relay" output="screen" args="cmd_vel copernicus_base_controller/cmd_vel" />
 
     
 </launch>
