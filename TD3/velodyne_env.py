@@ -127,7 +127,7 @@ class GazeboEnv:
             "/velodyne_points", PointCloud2, self.velodyne_callback, queue_size=1
         )
         self.odom = rospy.Subscriber(
-            "odometry/filtered", Odometry, self.odom_callback, queue_size=1
+            "volta_base_controller/odom", Odometry, self.odom_callback, queue_size=1
         )
 
     # Read velodyne pointcloud and turn it into distance data, then select the minimum value for each angle
