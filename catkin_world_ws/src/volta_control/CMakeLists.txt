@@ -5,7 +5,6 @@ find_package(catkin REQUIRED COMPONENTS
   controller_manager
   diff_drive_controller
   joint_state_controller
-  twist_mux
 )
 
 catkin_package(
