@@ -1,12 +1,25 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="robot_name" default="p3dx" />
+    <arg name="robot_position" default="-x -1.0 -y 5.0 -z 0.01" />
     <arg name="model" default="$(find volta_description)/urdf/volta.xacro"/>
-    <arg name="viz_config" default="$(find volta_description)/rviz_params/urdf.rviz"/>
-
+    
+    <!-- LOAD ROBOT DESCRIPTION PARAM -->
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
     
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-    
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg viz_config)" respawn="true" />
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description $(arg robot_position) "/>
+
+    <include file="$(find volta_control)/launch/control.launch">
+      <arg name="enable_odom_tf" value="true" />
+    </include>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="30.0"/>
+      <!--<param name="tf_prefix" type="string" value="$(arg robot_name)"/>-->
+    </node>
+  
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0"/>
+    </node>
+
 </launch>
