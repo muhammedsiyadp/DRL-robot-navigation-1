@@ -18,7 +18,7 @@ from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 
 GOAL_REACHED_DIST = 0.3
-COLLISION_DIST = 0.35
+COLLISION_DIST = 0.55 #0.35
 TIME_DELTA = 0.1
 
 
@@ -136,7 +136,7 @@ class GazeboEnv:
         data = list(pc2.read_points(v, skip_nans=False, field_names=("x", "y", "z")))
         self.velodyne_data = np.ones(self.environment_dim) * 10
         for i in range(len(data)):
-            if data[i][2] > -0.2:
+            if data[i][2] > -0.71: #change the height min height of objects that to be detected. 
                 dot = data[i][0] * 1 + data[i][1] * 0
                 mag1 = math.sqrt(math.pow(data[i][0], 2) + math.pow(data[i][1], 2))
                 mag2 = math.sqrt(math.pow(1, 2) + math.pow(0, 2))
