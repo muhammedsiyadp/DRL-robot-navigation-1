@@ -180,7 +180,7 @@ class GazeboEnv:
 
         # Publish the robot action
         vel_cmd = Twist()
-        vel_cmd.linear.x = action[0]
+        vel_cmd.linear.x = action[0]/2  # to limit the maximum speed
         vel_cmd.angular.z = action[1]
         self.vel_pub.publish(vel_cmd)
         self.publish_markers(action)
