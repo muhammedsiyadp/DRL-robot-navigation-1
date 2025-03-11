@@ -18,7 +18,7 @@ from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 
 GOAL_REACHED_DIST = 0.3
-COLLISION_DIST = 0.55 #0.35
+COLLISION_DIST = 0.3 #0.35
 TIME_DELTA = 0.1
 
 
@@ -136,7 +136,7 @@ class GazeboEnv:
         data = list(pc2.read_points(v, skip_nans=False, field_names=("x", "y", "z")))
         self.velodyne_data = np.ones(self.environment_dim) * 10
         for i in range(len(data)):
-            if data[i][2] > -0.71: #change the height min height of objects that to be detected. 
+            if data[i][2] > -0.115: #change the height min height of objects that to be detected. 
                 dot = data[i][0] * 1 + data[i][1] * 0
                 mag1 = math.sqrt(math.pow(data[i][0], 2) + math.pow(data[i][1], 2))
                 mag2 = math.sqrt(math.pow(1, 2) + math.pow(0, 2))
@@ -147,6 +147,29 @@ class GazeboEnv:
                     if self.gaps[j][0] <= beta < self.gaps[j][1]:
                         self.velodyne_data[j] = min(self.velodyne_data[j], dist)
                         break
+        #to print as graph
+        #self.visualize_lidar(self.velodyne_data)
+        #to print as values
+        # text_to_print = "|".join(f"{num:.2f}" for num in self.velodyne_data)
+        # print(f"\r{text_to_print}", end='', flush=True)
+        
+
+    def visualize_lidar(self,data):
+        height = 9  # Number of rows in visualization
+        width = 20  # Number of columns (data length)
+        max_level = 3  # Max visualization height for "x"
+        grid = [[' ' for _ in range(width)] for _ in range(height)]  # Use space instead of '0'
+        
+        for col, value in enumerate(data):
+            if value > 0 and value <= 3:  # Only update if value is within (0,3]
+                level = min(int(value), max_level)  # Convert float distance to discrete levels (0 to 3)
+                for i in range(max_level - level, height):  # Fill from the lowest 'x' upwards
+                    grid[i][col] = 'x'
+        
+        os.system('clear' if os.name == 'posix' else 'cls')  # Clear the terminal
+        for row in grid:
+            print(' '.join(row))
+            print(' ')
 
     def odom_callback(self, od_data):
         self.last_odom = od_data
@@ -426,7 +449,7 @@ class GazeboEnv:
     def observe_collision(laser_data):
         # Detect a collision from laser data
         min_laser = min(laser_data)
-        if min_laser < COLLISION_DIST:
+        if min_laser <= COLLISION_DIST:
             return True, True, min_laser
         return False, False, min_laser
 
